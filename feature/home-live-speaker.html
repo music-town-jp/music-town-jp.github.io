@@ -69,6 +69,36 @@ button{font:inherit;color:inherit}
 @keyframes beam{from{transform:rotate(-8deg)}to{transform:rotate(8deg)}}
 .tw1{animation:tw 6s steps(1) infinite}.tw2{animation:tw 6s steps(1) infinite -3s}
 @keyframes tw{0%,80%{opacity:1}81%,92%{opacity:.3}}
+/* 速報の下：Threadsで話題（横に流れる帯） */
+.rail{background:linear-gradient(#141a4a,#20266b);color:#fff;padding:14px 0 16px;border-bottom:3px solid var(--gold)}
+.rhead{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px;padding:0 clamp(16px,3vw,48px) 10px}
+.rlbl{font-weight:900;font-size:20px;letter-spacing:.04em;display:flex;align-items:center;gap:8px}
+.rlbl::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 4px rgba(255,107,139,.3)}
+.rhead i{font-family:var(--script);font-style:normal;font-size:24px;color:var(--gold)}
+.rsub{font-size:13px;color:#cfd3f0}
+.rall{margin-left:auto;color:var(--gold);font-weight:700;font-size:14px;text-decoration:none;white-space:nowrap}
+.rview{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)}
+.rview+.rview{margin-top:12px}
+.rtrack{display:flex;gap:12px;width:max-content;padding:2px 6px;animation:rail var(--dur,60s) linear infinite}
+.rtrack.rev{animation-direction:reverse}
+.rdup{display:contents}
+.rail:hover .rtrack,.rail:focus-within .rtrack,.rail.hold .rtrack{animation-play-state:paused}
+@keyframes rail{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.rcard{flex:none;display:flex;flex-direction:column;width:200px;background:#fff;color:var(--ink);border:0;border-radius:14px;overflow:hidden;padding:0;text-align:left;cursor:pointer;text-decoration:none;font:inherit;box-shadow:0 6px 16px rgba(0,0,0,.25);transition:transform .2s}
+.rcard:hover{transform:translateY(-4px)}
+.rph{position:relative;display:block;aspect-ratio:1/1;background:var(--tb,#eee);overflow:hidden}
+.rph .poster{position:absolute;inset:0}
+.rph .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rtx{display:flex;flex-direction:column;gap:4px;padding:9px 11px 11px}
+.rtx b{font-size:14px;line-height:1.4;font-weight:900;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.8em}
+.rtx small{font-size:12px;color:var(--sub)}
+.rtag{align-self:flex-start;font-size:11px;font-weight:900;border-radius:999px;padding:2px 9px;background:var(--gold);color:var(--ink)}
+.rtag.th{background:var(--red);color:#fff}
+.rtag.ft{background:var(--pink);color:#fff}
+.rview+.rview .rcard{width:160px}
+.rview+.rview .rtx b{font-size:13px;min-height:0;-webkit-line-clamp:1}
+@media (max-width:560px){.rcard{width:156px}.rview+.rview .rcard{width:130px}.rsub{display:none}.rlbl{font-size:18px}}
+@media (prefers-reduced-motion: reduce){.rtrack{animation:none}.rview{overflow-x:auto}}
 /* 街の上の題字（雲の看板） */
 .title{position:absolute;left:clamp(16px,3vw,48px);top:clamp(16px,3vw,40px);width:min(520px,40vw);z-index:2;
   background:var(--cream);border:3px solid var(--ink);border-radius:36px 36px 36px 8px;padding:22px 26px 22px;box-shadow:8px 8px 0 rgba(17,22,61,.55)}
@@ -550,4 +580,7 @@ img.ph{position:relative;z-index:1}
   var tw=document.getElementById('townwrap');
   if(tw&&tw.scrollWidth>tw.clientWidth){tw.scrollLeft=(tw.scrollWidth-tw.clientWidth)/2;}
 })();
+(function(){var r=document.querySelector('.rail'),t;if(!r)return;
+  r.addEventListener('touchstart',function(){clearTimeout(t);r.classList.add('hold');},{passive:true});
+  r.addEventListener('touchend',function(){t=setTimeout(function(){r.classList.remove('hold');},2500);},{passive:true});})();
 </script></html>
